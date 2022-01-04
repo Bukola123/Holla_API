@@ -15,8 +15,15 @@ const ProfileSchema = new Schema({
     },
     phone: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+
+
     updatedAt: {
         type: Date
     },

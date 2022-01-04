@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
-//const { stringify } = require('nodemon/lib/utils');
+
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema ({
 email: {
-    type :String,
+    type: String,
     required: true,
-    unique: true},
+    unique: true
+},
 password: {
     type: String,
     required: true
