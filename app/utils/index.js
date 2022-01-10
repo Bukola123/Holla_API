@@ -19,7 +19,7 @@ exports.sendMail = async function (recipients, subject, text) {
 
     // send mail with defined transport object
     await transporter.sendMail({
-        from: `"Holla" ${USERNAME}`, // sender address
+        from: '"Holla" <taiwobukola98@gmail.com>', // sender address
         to: recipients, // list of receivers
         subject: subject, // Subject line
         text: text, // plain text body
@@ -27,3 +27,4 @@ exports.sendMail = async function (recipients, subject, text) {
     });
     return 'message sent';
 };
+

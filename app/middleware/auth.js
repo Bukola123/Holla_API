@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-exports.auth = (req, res, next) => {
-    const token = req.headers['authorization'];
+const auth = async (req, res, next) => {
+    let token = req.headers['authorization'];
+    
 
     if (!token) {
         return res.status(401).send({
@@ -14,11 +15,17 @@ exports.auth = (req, res, next) => {
         });
     }
 
+    token = token.split(' ')[1];
+    
+
     try {
-        user = jwt.verify(token, 'secret');
+        user = await jwt.verify(token, process.env.SECRET_KEY);
+        console.log('end')
         req.user = user;
         next();
     } catch (error) {
         res.status(401).json({ errors: [{ msg: 'invalid token' }] });
     }
 };
+
+module.exports = auth;

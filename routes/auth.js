@@ -1,19 +1,34 @@
 const express = require('express');
+const {
+    authCredentialsValidation,
+    registrationValidation,
+    changePasswordValidation,
+    passwordValidation,
+    emailValidation
+} = require('../app/middleware/authValidation');
+const {
+    registerUser,
+    loginUser,
+    verifyUser,
+    changePassword,
+    forgotPassword,
+    resetPassword,
+    resendVerificationLink
+} = require('../app/controller/auth');
+const auth = require('../app/middleware/auth');
+
 const router = express.Router();
 
-const {authCredentialsValidation,loginValidation, validateEmail} = require ('../app/middleware/authValidation');
-const {registerUser} = require('../app/controllers/auth/register')
-const {verifyUser} = require('../app/controllers/auth/verifyUser')
-const {loginUser} = require('../app/controllers/auth/loginUser');
-const { forgotPassword } = require('../app/controllers/auth/forgotPassord');
-const { resetPassword } = require('../app/controllers/auth/resetPassword');
-const { changePassword } = require('../app/controllers/auth/changePassword');
+router.post('/register', registrationValidation, registerUser);
+router.get('/verify', verifyUser);
+router.post('/verify/resend', emailValidation, resendVerificationLink);
+router.post('/login', authCredentialsValidation, loginUser);
+router.patch(
+    '/change-password',
+    [auth, changePasswordValidation],
+    changePassword
+);
+router.post('/forgot-password', emailValidation, forgotPassword);
+router.patch('/reset-password', passwordValidation, resetPassword);
 
-router.post ('/register', authCredentialsValidation, registerUser);
-router.get ('/verifyUser', verifyUser);
-router.get ('/login',loginValidation, loginUser);
-router.post ('/forgot-password',validateEmail,forgotPassword );
-router.post('/reset-password', resetPassword);
-router.put('/change-password', changePassword);
-
-module.exports = router
+module.exports = router;
