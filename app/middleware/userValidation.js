@@ -6,7 +6,7 @@ exports.updateProfileValidation = [
         .isString(),
     check('phone', 'Phone can only be a string')
         .optional({ checkFalsy: true })
-        .isString(),
+        .isMobilePhone(),
     check('avatar', 'Avatar is required')
         .optional({ checkFalsy: true })
         .isBase64()
